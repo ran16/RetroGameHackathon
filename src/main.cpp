@@ -8,12 +8,13 @@
 
 int main(){
 
-	sf::RenderWindow window(sf::VideoMode(2000, 2000), "Arkanoid");
+	sf::RenderWindow window(sf::VideoMode(1000, 1000), "Arkanoid");
+	window.setFramerateLimit(120);
 
 	//ball
-    sf::CircleShape ball(20.f);
+    sf::CircleShape ball(15.f);
     ball.setFillColor(sf::Color(52, 140, 235));
-	ball.setPosition(1000,1200);
+	ball.setPosition(500,600);
 
 	//bricks
 	std::vector<std::vector<sf::RectangleShape>> bricks;
@@ -21,9 +22,9 @@ int main(){
 		std::vector<sf::RectangleShape> bricks_row;
 		bricks.push_back(bricks_row);
 		for(int j=0;j<10;j++){
-			sf::RectangleShape brick(sf::Vector2f(120.f, 50.f));
+			sf::RectangleShape brick(sf::Vector2f(60.f, 25.f));
 			bricks[i].push_back(brick);
-			bricks[i][j].setPosition(120*i*1.2+200,j*50*1.2+50);
+			bricks[i][j].setPosition(60*i*1.2+100,j*25*1.2+25);
 		}
 	}
 
@@ -44,12 +45,12 @@ int main(){
 
 
 	//bar
-	sf::RectangleShape bar(sf::Vector2f(250.f, 10.f));
-	bar.setPosition(800,1199);
+	sf::RectangleShape bar(sf::Vector2f(125.f, 5.f));
+	bar.setPosition(400,599);
 
 	//set up direction which the ball travels
-	int dir_x = 2;
-	int dir_y = -2;
+	int dir_x = 1;
+	int dir_y = -1;
 
 	//set up score
 	int score = 0;
@@ -66,13 +67,13 @@ int main(){
 	score_text.setFont(font);
 	message.setFont(font);
 	// set the string to display
-	text.setPosition(100,1300);
-	score_text.setPosition(300,1300);
+	text.setPosition(50,650);
+	score_text.setPosition(150,650);
 	text.setString("score: ");
 	score_text.setString(std::to_string(score));
 	// set the character size
-	text.setCharacterSize(50);
-	score_text.setCharacterSize(50);
+	text.setCharacterSize(25);
+	score_text.setCharacterSize(25);
 	// set the color
 	text.setFillColor(sf::Color::White);
 
@@ -91,7 +92,7 @@ int main(){
 		ball.move(dir_x,dir_y);
 
 		//if the ball hit the right edge
-		if(ball.getPosition().x>2000){
+		if(ball.getPosition().x>1000){
 			dir_x *= -1;
 		}
 
@@ -106,16 +107,16 @@ int main(){
 		}
 
 		//if fails to catch ball
-		if(ball.getPosition().y >1199){
+		if(ball.getPosition().y >599){
 			//print a message
 			// set the string to display
-			message.setPosition(600,600);
+			message.setPosition(300,300);
 			message.setString("GAME OVER!\n Your score:");
 			score_text.setString(std::to_string(score));
-			score_text.setPosition(1250,700);
+			score_text.setPosition(625,350);
 			// set the character size
-			message.setCharacterSize(100);
-			score_text.setCharacterSize(100);
+			message.setCharacterSize(50);
+			score_text.setCharacterSize(50);
 			// set the color
 			message.setFillColor(sf::Color::White);
 			window.draw(message);
@@ -143,7 +144,7 @@ int main(){
 				sf::FloatRect brick_bounds = bricks[i][j].getGlobalBounds();
 				if (brick_bounds.intersects(ball_bounds)){ //check if collide
 		    		dir_y *= -1;
-					bricks[i][j].setPosition(2500,0); //send this brick away
+					bricks[i][j].setPosition(1250,0); //send this brick away
 					score++;
 					score_text.setString(std::to_string(score));//update score
 				}
@@ -162,13 +163,13 @@ int main(){
 		//check if wins
 		if(score == 100){
 			//print a message
-			message.setPosition(600,600);
+			message.setPosition(300,300);
 			message.setString("You won!\n Your score:");
 			score_text.setString(std::to_string(score));
-			score_text.setPosition(1250,700);
+			score_text.setPosition(625,350);
 			// set the character size
-			message.setCharacterSize(100);
-			score_text.setCharacterSize(100);
+			message.setCharacterSize(50);
+			score_text.setCharacterSize(50);
 			// set the color
 			message.setFillColor(sf::Color::White);
 			window.draw(message);
